@@ -85,7 +85,7 @@ def regression(X: np.ndarray, y: np.ndarray, alpha: float, lambda_: float, epoch
         my_bar.progress(i / epochs)
     y_pred = beta[0] + beta[1] * X
     st.write("Final beta: ", beta)
-    st.write("Final loss: ", loss_function(X, y, beta[0], beta[1], lambda_))
+    st.write("Final error: ", loss_function(X, y, beta[0], beta[1], lambda_))
     st.write("Final gradient: ", grads(X, y, beta[0], beta[1], lambda_, theta))
     st.write("Final MSE: ", mean_squared_error(y, y_pred))
     return beta
