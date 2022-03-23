@@ -17,7 +17,6 @@ st.plotly_chart(fig)
 df = pd.DataFrame(dict(MedInc=X['MedInc'], Price=cal_housing.target))
 st.write("df:", df)
 
-
 X_train, X_test, y_train, y_test = train_test_split(df.iloc[:, 0], df.iloc[:, 1], test_size=0.3, random_state=42)
 
 
@@ -26,6 +25,12 @@ def theta_checker(theta: int, error: float):
         return True
     else:
         return False
+
+
+def error_calc(X: np.ndarray, y: np.ndarray, b0, b1):
+    error = 0
+    error = (y - (b0 + b1 * X)) ** 2
+    return error
 
 
 def loss_function(X: np.ndarray, y: np.ndarray, b0, b1, lambda_):
@@ -40,7 +45,7 @@ def grads(X: np.ndarray, y: np.ndarray, b0, b1, lambda_, theta):
     X = X.values
     y = y.values
     for i in range(X.shape[0]):
-        if theta_checker(theta, (y[i] - (b0 + b1 * X[i])) ** 2):
+        if theta_checker(theta, error_calc(X[i], y[i], b0, b1)):
             b0_grad += -2 * (y[i] - (b0 + b1 * X[i])) + 2 * lambda_ * b0
             b1_grad += -2 * (y[i] - (b0 + b1 * X[i])) * X[i] + 2 * lambda_ * b1
         else:
@@ -98,7 +103,7 @@ def main(verbose: bool = False):
     st.title("Housing Price Prediction")
     st.sidebar.subheader("Model Parameters")
     st.sidebar.markdown("---")
-    lr = st.sidebar.slider("Learning Rate", 0.0001, 0.01, 0.001, 0.0001)
+    lr = st.sidebar.slider("Learning Rate", 0.000001, 0.01, 0.000001, 0.0001)
     epochs = st.sidebar.slider("Epochs", 1, 10, 3, 1)
     batch_size = st.sidebar.slider("Batch Size", 1, 1000, 100, 1)
     st.sidebar.markdown("---")
