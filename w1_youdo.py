@@ -78,7 +78,7 @@ def regression(X: np.ndarray, y: np.ndarray, alpha: float, lambda_: float, epoch
             b0_grad, b1_grad = grads(X, y, beta[0], beta[1], lambda_, theta)
             beta[0] = beta[0] - alpha * b0_grad
             beta[1] = beta[1] - alpha * b1_grad
-        if np.linalg.norm(beta - beta_prev) < 1e-6:
+        if np.linalg.norm(beta - beta_prev) < 1e-4:
             st.write("Converged at epoch: ", i)
             print("Converged at epoch: ", i)
             break
